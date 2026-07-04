@@ -1,0 +1,21 @@
+{
+  "source": ".vibecoding-agent.session.json",
+  "redacted": true,
+  "workspace": "test-reports/kali/ctf-2026-vibecoding-safeagent/local-workspace",
+  "previous_response_id": "<redacted>",
+  "messages": [
+    {
+      "role": "user",
+      "content": "请读取 notes.txt 的内容"
+    },
+    {
+      "role": "assistant",
+      "content": "<redacted local file-search tool call>"
+    }
+  ],
+  "updated_at": "2026-07-03T23:11:18+08:00",
+  "redaction_notes": [
+    "Removed response/session continuation identifier.",
+    "No internal IP, internal domain, bearer token, API key, cookie, or private key material retained."
+  ]
+}

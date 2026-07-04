@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import hashlib
 import sqlite3
+import subprocess
 from pathlib import Path
 from typing import Any
 
 from .engagement import load_state, log_event, save_state
-from .paths import KNOWLEDGE_DIR
+from .paths import KNOWLEDGE_DIR, REPO_ROOT
 from .scope import load_scope, target_values
 from .utils import append_jsonl, read_json, read_jsonl, standard_log_record, utc_now, write_json
 
@@ -46,9 +47,41 @@ def ensure_knowledge() -> None:
 
 
 def resource_id(path: Path, resource_type: str) -> str:
-    digest = hashlib.sha1(str(path.resolve()).encode("utf-8", errors="ignore")).hexdigest()[:12]
+    digest = hashlib.sha1(portable_source_path(path).encode("utf-8", errors="ignore")).hexdigest()[:12]
     stem = path.stem.lower().replace("_", "-")[:48] or "resource"
     return f"{resource_type}:{stem}:{digest}"
+
+
+def portable_source_path(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return path.as_posix()
+
+
+def resolve_source_path(path: str) -> Path:
+    source = Path(path)
+    if not source.is_absolute():
+        source = REPO_ROOT / source
+    return source
+
+
+def is_git_ignored(path: Path) -> bool:
+    try:
+        rel = path.resolve().relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return False
+    try:
+        result = subprocess.run(
+            ["git", "check-ignore", "-q", "--", rel],
+            cwd=REPO_ROOT,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+    except OSError:
+        return False
+    return result.returncode == 0
 
 
 def read_text(path: Path) -> str:
@@ -88,6 +121,8 @@ def iter_resources(path: Path) -> list[Path]:
             continue
         if child.suffix.lower() not in TEXT_SUFFIXES:
             continue
+        if is_git_ignored(child):
+            continue
         try:
             if child.stat().st_size > MAX_INDEX_BYTES:
                 continue
@@ -120,7 +155,7 @@ def ingest(path: Path, resource_type: str, *, domain: str | None = None, phase: 
             "tags": meta["tags"],
             "techniques": [],
             "artifacts": [],
-            "source_path": item.as_posix(),
+            "source_path": portable_source_path(item),
             "sensitivity": "normal",
             "updated_at": utc_now(),
         }
@@ -211,7 +246,7 @@ def reindex() -> dict[str, Any]:
     fts = reset_index(conn)
     indexed = 0
     for row in rows:
-        path = Path(row.get("source_path", ""))
+        path = resolve_source_path(row.get("source_path", ""))
         content = read_text(path)
         if not content:
             continue

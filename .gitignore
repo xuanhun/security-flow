@@ -44,7 +44,6 @@ engagements/
 test-reports/
 
 # Generated knowledge indexes and local mirrors
-knowledge/index.sqlite
 knowledge/registry.jsonl
 knowledge/links.jsonl
 knowledge/casebook/index.json
