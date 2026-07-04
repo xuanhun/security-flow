@@ -1,0 +1,13 @@
+{
+  "name": "security-framework-node-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Optional Node runtime for browser and frontend probes.",
+  "scripts": {
+    "check": "node --version",
+    "test": "npm run check"
+  },
+  "optionalDependencies": {
+    "playwright": "^1.45.0"
+  }
+}

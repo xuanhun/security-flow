@@ -1,0 +1,76 @@
+# Local virtual environments and dependency caches
+.venv/
+venv/
+env/
+ENV/
+**/.venv/
+**/.venv-*/
+**/*-venv/
+**/venv/
+**/node_modules/
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.cache/
+
+# Local agent/session state
+.vibecoding-agent.session.json
+*.session.json
+*.session.jsonl
+
+# Environment files, credentials, and private key material
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.csr
+*.kubeconfig
+*credential*
+*credentials*
+*secret*
+*token*
+*cookies*
+*cookie*
+*session*
+
+# Project-local private instructions and raw engagement workspaces
+AGENTS.md
+engagements/
+test-reports/
+
+# Generated knowledge indexes and local mirrors
+knowledge/index.sqlite
+knowledge/registry.jsonl
+knowledge/links.jsonl
+knowledge/casebook/index.json
+knowledge/casebook/sources/
+
+# Reports, traces, captures, archives, and challenge binaries
+*.7z
+*.apk
+*.bin
+*.dmg
+*.exe
+*.har
+*.ipa
+*.jar
+*.pcap
+*.pcapng
+*.pdf
+*.raw
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~

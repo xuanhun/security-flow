@@ -1,0 +1,4 @@
+interface:
+  display_name: "Kali"
+  short_description: "Kali-style pentest workflow"
+  default_prompt: "Use $kali to plan and run an authorized penetration testing workflow with scope checks and evidence reports."

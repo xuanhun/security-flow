@@ -1,0 +1,37 @@
+{
+  "domains": [
+    "web",
+    "network",
+    "mobile",
+    "forensics",
+    "crypto",
+    "agent",
+    "osint",
+    "general"
+  ],
+  "phases": [
+    "intake",
+    "recon",
+    "surface-map",
+    "knowledge-recall",
+    "hypothesis",
+    "validation",
+    "proof",
+    "report",
+    "distill"
+  ],
+  "resource_types": [
+    "case",
+    "playbook",
+    "tool",
+    "report",
+    "asset",
+    "reference"
+  ],
+  "risk_levels": [
+    "safe",
+    "medium",
+    "high",
+    "gated"
+  ]
+}
